@@ -1,0 +1,7 @@
+
+
+RESOLUTION = (3072, 1920)
+WIDTH = RESOLUTION[0]
+HEIGHT = RESOLUTION[1]
+
+# Model Parameters
