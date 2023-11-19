@@ -18,9 +18,13 @@ class App:
 
         self.model = Model()
 
+        self.distFont = pg.font.SysFont("Arial", 40, True)
+
         sA = th.Thread(target=simulatedAnnealing, args=(self.model,))
 
         sA.start()
+
+        clock = pg.time.Clock()
 
         while Singleton.running:
 
@@ -32,12 +36,16 @@ class App:
 
             pg.display.update()
 
+            clock.tick(60)
+
     def renderFrame(self):
 
-        self.screen.fill((255, 255, 255))
+        if len(self.model.nodes) == self.model.count:
 
-        self.renderGraph()
-        self.renderModel()
+            self.screen.fill((255, 255, 255))
+
+            self.renderGraph()
+            self.renderModel()
 
     def renderGraph(self):
 
@@ -136,3 +144,7 @@ class App:
             y = originY - ((node.y / self.model.height) * graphHeight)
 
             pg.draw.circle(self.screen, c.NODE_COLOUR, (x, y), c.NODE_RADIUS)
+
+        text = self.distFont.render(f"{round(self.model.distance, 2)}", True, (0, 0, 0))
+        self.screen.blit(text, (screenSize[0] - c.GRAPH_PADDING - c.GRAPH_LINE_WIDTH - text.get_width() - 5,
+                                     screenSize[1] - c.GRAPH_PADDING - c.GRAPH_LINE_WIDTH - text.get_height() - 5))

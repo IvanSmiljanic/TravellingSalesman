@@ -1,3 +1,5 @@
+import math as m
+
 import config as c
 import random as r
 
@@ -34,7 +36,11 @@ class Model:
         self.nodes = []
         self.edges = []
 
+        self.distance = 0
+
         self.populateRandomly()
+
+        self.calculateDistance()
 
     def getNode(self, n):
 
@@ -53,6 +59,16 @@ class Model:
             self.edges.append(Edge(self.nodes[solution[i]], self.nodes[solution[i+1]]))
 
         self.edges.append(Edge(self.nodes[solution[-1]], self.nodes[solution[0]]))
+
+        self.calculateDistance()
+
+    def calculateDistance(self):
+
+        self.distance = 0
+
+        for edge in self.edges:
+
+            self.distance += m.sqrt((edge.n1.x - edge.n2.x) ** 2 + (edge.n1.y - edge.n2.y) ** 2)
 
     def populateRandomly(self):
 
